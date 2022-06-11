@@ -24,8 +24,8 @@ type Perfil {
 }
 
 input PerfilInput {
-    nome: String
-    rotulo: String
+    nome: String!
+    rotulo: String!
 }
 
 input PerfilFiltro {
