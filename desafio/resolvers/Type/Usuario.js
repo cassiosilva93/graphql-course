@@ -6,7 +6,7 @@ module.exports = {
       .where({ usuario_id: usuario.id })
       .map((row) => row.perfil_id);
 
-    let perfilName = [];
+    const perfilName = [];
 
     for (const id of perfilId) {
       const name = await db("perfis").where({ id });

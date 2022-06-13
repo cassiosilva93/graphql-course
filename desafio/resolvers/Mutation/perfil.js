@@ -22,12 +22,22 @@ module.exports = {
 
     if (filtro.id) {
       perfil = await db("perfis").where({ id: filtro.id }).first();
+
+      if(!perfil) {
+        return null
+      }
+
       await db("usuarios_perfis").where({ perfil_id: filtro.id }).delete();
       await db("perfis").where({ id: filtro.id }).delete();
       return perfil;
     }
 
     perfil = await db("perfis").where({ nome: filtro.nome }).first();
+
+    if(!perfil) {
+      return null
+    }
+
     await db("usuarios_perfis").where({ perfil_id: perfil.id }).delete();
     await db("perfis").where({ nome: filtro.nome }).delete();
     return perfil;
@@ -39,31 +49,24 @@ module.exports = {
     if (filtro.id) {
       perfil = await db("perfis").where({ id: filtro.id }).first();
 
-      if (!perfil) {
-        throw new Error("This profile does not exists");
-      }
+      if (!perfil) return null
 
       await db("perfis").where({ id: perfil.id }).update({
-        nome: dados.nome,
-        rotulo: dados.rotulo,
+        ...dados
       });
 
-      perfil = await db("perfis").where({ id: filtro.id }).first();
-      return perfil;
+      return {...perfil, ...dados};
     }
 
+    
     perfil = await db("perfis").where({ nome: filtro.nome }).first();
 
-    if (!perfil) {
-      throw new Error("This profile does not exists");
-    }
+    if (!perfil) return null
 
     await db("perfis").where({ nome: perfil.nome }).update({
-      nome: dados.nome,
-      rotulo: dados.rotulo,
+      ...dados
     });
 
-    perfil = await db("perfis").where({ nome: dados.nome }).first();
-    return perfil;
+    return {...perfil, ...dados};
   },
 };

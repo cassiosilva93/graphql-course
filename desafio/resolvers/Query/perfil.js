@@ -8,6 +8,8 @@ module.exports = {
   async perfil(_, { filtro }) {
     let perfil;
 
+    if(Object.keys(filtro).length === 0) return null
+
     if (filtro.id) {
       perfil = await db("perfis").where({ id: filtro.id }).first();
       return perfil;

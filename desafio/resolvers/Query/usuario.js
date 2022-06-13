@@ -9,6 +9,8 @@ module.exports = {
   async usuario(_, { filtro }) {
     let user;
 
+    if(Object.keys(filtro).length === 0) return null
+
     if (filtro.id) {
       user = await db("usuarios").where({ id: filtro.id }).first();
       return user;
